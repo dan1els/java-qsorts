@@ -14,7 +14,7 @@ public class QuickSort {
 
   public QuickSort(Stream<Integer> in) {
     this.partition = in.collect(toUnmodifiableList());
-    this.pivot = partition.get(partition.size() - 1);
+    this.pivot = partition.isEmpty() ? null : partition.get(partition.size() - 1);
   }
 
   public Stream<Integer> sorted() {
