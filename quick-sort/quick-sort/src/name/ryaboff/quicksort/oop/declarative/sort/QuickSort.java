@@ -1,35 +1,37 @@
 package name.ryaboff.quicksort.oop.declarative.sort;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.*;
-import static java.util.stream.Stream.concat;
-import static java.util.stream.Stream.of;
+import static java.util.List.of;
+import static java.util.stream.Collectors.toList;
 
 public class QuickSort {
 
   private final List<Integer> partition;
   private final Integer pivot;
 
-  public QuickSort(Stream<Integer> in) {
-    this.partition = in.collect(toUnmodifiableList());
+  public QuickSort(List<Integer> in) {
+    this.partition = List.copyOf(in);
     this.pivot = partition.isEmpty() ? null : partition.get(partition.size() - 1);
   }
 
-  public Stream<Integer> sorted() {
+  public List<Integer> sorted() {
     return partition.size() < 2
         ?
-        partition.stream()
+        partition
         :
         concat3(
-            new QuickSort(partition.stream().filter(e -> e.compareTo(pivot) < 0)).sorted(),
+            new QuickSort(partition.stream().filter(e -> e.compareTo(pivot) < 0).collect(toList())).sorted(),
             of(pivot),
-            new QuickSort(partition.stream().filter(e -> e.compareTo(pivot) > 0)).sorted()
+            new QuickSort(partition.stream().filter(e -> e.compareTo(pivot) > 0).collect(toList())).sorted()
         );
   }
 
-  private Stream<Integer> concat3(Stream<Integer> s1, Stream<Integer> s2, Stream<Integer> s3) {
-    return concat(s1, concat(s2, s3));
+  private List<Integer> concat3(List<Integer> s1, List<Integer> s2, List<Integer> s3) {
+    var result = new ArrayList<>(s1);
+    result.addAll(s2);
+    result.addAll(s3);
+    return result;
   }
 }

@@ -1,5 +1,6 @@
 package name.ryaboff.quicksort.cstyle;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -42,10 +43,10 @@ public class CStyleQuickSort {
 
   private static List<Integer> array1000() {
     var rng = new Random();
-    return IntStream
-        .range(0, 1000)
-        .peek(i -> rng.nextInt(10000))
-        .boxed()
-        .collect(toList());
+    var result = new ArrayList<Integer>();
+    for (int i = 0; i < 10_000_000; ++i) {
+      result.add(rng.nextInt(10000));
+    }
+    return result;
   }
 }
